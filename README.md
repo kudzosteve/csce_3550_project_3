@@ -1,71 +1,77 @@
-# csce_3550_project_3
-# README - Running the JWT Authentication Server on Linux
+# CSCE 3550 - JKWS Server Project
+
+## Details
+This project simulates a JWKS server with a RESTful API that can serve public keys with expiry and unique kid to verify JWTs. The keys are AES encrypted and stored in a SQLite database. The /auth endpoint is set to handle 10 requests per seconds and every successful authentication is logged.
+
+## Project structure
+```text
+csce_3550_project_3/
+├─screenshots/
+├─gen_ran_key.py
+├─gradebot
+├─main.py
+├─README.md
+└─requirements.txt
+```
 
 ## Prerequisites
-Ensure your system has the following installed:
-- Python 3.12+
-- `pip` (Python package manager)
-- Required Python dependencies
+- OS: Linux (amd64)
+- Python 3.12+ with pip
+- Dependencies from requirements.txt
 
 ## Installation Steps
-1. Clone the repository or download the files and save them in the same directory
-    ```
-    git clone <repository_url>
-    cd <repository_directory>
-    ```
+### Download the project and navigate to the directory
+```bash
+git clone <repository_url>
+cd <repository_directory>
+```
 
-    **The following files should be present in the directory. Check with `ls -l` command**
-        - gen_ran_key.py        # the program that will generate the encryption/decryption key
-        - gradebot              # the test client
-        - main.py               # the main program
-        - requirements.txt      # the required dependencies
-        - venv                  # virtual environment
+### Set up a virtual environment
+```bash
+# Set up the virtual environment 
+python3 -m venv .venv
 
-2. Setup virtual environment and install required dependencies
-    a. Make sure pip is installed or install with:
-        ```
-        sudo apt install python3-pip
-        ```
-    b. Set up the virtual environment
-        ```
-        python3 -m venv venv
-        ```
-    Note: Creating the virtual environment within a hidden file (like .venv) has proven to not run the server as expected
+# Activate the virtual environment
+source venv/bin/activate
 
-    c. Activate the virtual environment with:
-        ```
-        source venv/bin/activate
-        ```
-    d. Install the packages from the requirements.txt file
-        ```
-        pip install -r requirements.txt
-        ```
-3. Open a second terminal and navigate to the folder containing the "gradebot" program that will verify the server runs as expected
-    a. Generate the key by running the command: python3 gen_ran_key.py. A random key will be printed to the terminal
+# Install the necessary packages
+pip install -r requirements.txt
+```
 
-    b. Copy the generated key and run the command: export NOT_MY_KEY="***The generated key***"
+### Start the server
+```bash
+# Generate random 32-bit key for encryption and decryption
+python3 gen_key.py
 
-    Example:
-        Example:
-        Generated key: 8HP6TOgxYweuwxJWNehdCfQW327NMTIdJpJCOk/PYCE=
-        export NOT_MY_KEY="8HP6TOgxYweuwxJWNehdCfQW327NMTIdJpJCOk/PYCE="
+# Example output 
+Generated key: 8HP6TOgxYweuwxJWNehdCfQW327NMTIdJpJCOk/PYCE=
 
-    c. Run the server in the first terminal
-        ```
-        python3 main.py
-        ```
+# Export the generated key
+export NOT_MY_KEY="8HP6TOgxYweuwxJWNehdCfQW327NMTIdJpJCOk/PYCE="
 
-    d. Execute the "gradebot" program in the second terminal.
-        ```
-        ./gradebot project2
-        ```
-    You should see some outputs in the first terminal after the test client has executed
+# Now, run the main program to start the server
+python3 main.py
+```
+
+### Open a second terminal and run the test suite
+
+```bash
+# Activate the virtual environment
+source venv/bin/activate
+
+# Run the tests
+./gradebot project3
+```
+
+## Screenshots showing outputs in Ubuntu
+### Server side
+![JWKS server](./screenshots/server%20running.png)
+
+### Client side
+![Test suite](./screenshots/test%20suite%20output.png)
 
 ## Server Details
-- The server runs on `localhost:8080`.
-- The database file is created at "totally_not_my_privateKeys.db" in the script's directory.
-
-## Troubleshooting
-If the gradebot does not output a total score of 65, try these fixes:
-    a. Remove the "totally_not_my_privateKeys.db" with `rm totally_not_my_privateKeys.db` and run the program again
-    b. Deactivate the virtual environment with `deactivate` and run the program again, with "totally_not_my_privateKeys.db" not in the directory
+- Address: `localhost:8080`.
+- Database: `totally_not_my_privateKeys.db`
+- Environment key: `NOT_MY_KEY`
+- Test suite: `gradebot` 
