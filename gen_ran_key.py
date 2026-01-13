@@ -1,11 +1,7 @@
-"""Generate a random key for encryption and decryption"""
-import base64, os
+# Generate a random key for encryption and decryption
+import os, base64
 
-ENV = "NOT_MY_KEY"
-
-# Generate a secure random 32-byte key
-key = os.urandom(32)
-
-# Convert to base64 for easy storage as an environment variable
-encoded_key = base64.b64encode(key).decode('utf-8')
-print(f"Generated key: {encoded_key}")
+# Generate a 32-bit random key
+env_key = os.urandom(32)
+encoded_key = base64.b64encode(env_key).decode('utf-8')
+print(f"The key: {encoded_key}")
